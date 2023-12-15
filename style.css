@@ -1,0 +1,162 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background: linear-gradient(to top, rgba(140, 0, 140), rgba(140, 0, 140, 0.3));
+}
+
+/* Navbar */
+navbar {
+    background: linear-gradient(to bottom, rgba(140, 0, 140), rgba(140, 0, 140, 0.3));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 120px;
+    padding: 5px;
+}
+
+.navbar-li {
+    list-style-type: none;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.navbar-a {
+    text-decoration: none;
+    color: white;
+    transition: 0.4s;
+}
+
+.navbar-a:hover {
+    border-bottom: 3px solid white;
+    border-radius: 5px;
+}
+
+.logo_navbar {
+    width: auto;  
+    height: 100px; 
+}
+.menu ul{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 100px;
+}
+.ingelogd{
+    list-style-type: none;
+    color: white;
+    margin-right: 50px;
+    cursor: pointer;
+}
+
+.boxlog{
+    position: relative;
+}
+
+.uitloggen {
+    display: none;
+    position: absolute;
+    top: 71px; 
+    right: 25px;
+    background-color: white;
+}
+.formuit{
+    background-color: purple;
+}
+
+.uit{
+    width: 100px;
+    border: none;
+    cursor: pointer;
+    background-color: purple;
+    color: white;
+}
+.uitloggen::before{
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: -10px;
+    left: 50%;
+    margin-left: -10px;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    border-color: transparent transparent black transparent;
+}
+
+.drop .uitloggen{
+    display: block;
+}
+
+.ingelogd:hover .uitloggen{
+    display: block;
+}
+
+.ingelogd i {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.dropdown {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 1;
+    padding: 5px 0;
+    margin-top: 5px;
+    right: 0;
+}
+
+.dropdown-item li {
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.4s;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.dropdown-item a {
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.4s;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+/* Show the dropdown when the user clicks on the profile picture */
+.ingelogd:hover .dropdown {
+    display: block;
+    margin-top: -3px;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+/* Hamburger menu */
+.hamburger-menu{
+    display: none;    
+    cursor: pointer;
+    position: relative;
+    right: 10px;
+    z-index: 10;
+}
+@media screen and (max-width: 1068px) {
+    .hamburger-menu{
+        display: block;
+    }
+    .hamburger-menu.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger-menu.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+}
