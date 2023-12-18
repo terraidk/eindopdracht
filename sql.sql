@@ -1,5 +1,7 @@
 create database eindopdracht;
 
+drop database if exists eindopdracht;
+
 use eindopdracht;
 
 create table users (
@@ -38,6 +40,11 @@ VALUES ('Toyota', 'Corolla', 2020, 'ABC123', 1, 50.00, "toyotacorolla.png");
 
 INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture)
 VALUES ('Audi', 'R8', 2023, '9-VGB-14', 1, 75.00, "audir8.png");
+
+UPDATE cars
+SET car_availability = 1
+WHERE car_id = 1;
+
 
 select * from users;	
 

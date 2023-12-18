@@ -150,8 +150,19 @@ if (isset($_POST["login"])) {
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION["loggedInUser"] = $user["user_id"];
-        header("location: eindopdracht.php");
-        exit; // Add an exit after header redirect
+
+        if (isset($_SESSION['carId'])) {
+            $carId = $_SESSION['carId'];
+            unset($_SESSION['carId']); // Clear the stored car ID
+
+            // Redirect to the original cars.php page with the same car_id
+            header("Location: cars.php?car_id=$carId");
+            exit;
+        } else {
+            // If there's no specific car ID, redirect to a default page
+            header("Location: allcars.php");
+            exit;
+        }
     } else {
         $error_message = "Invalid username/password combination";
     }

@@ -44,13 +44,25 @@ if (isset($_GET['car_id'])) {
                     padding: 20px;
                 }
 
+                .car-container {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    height: 100vh;
+                    background-color: #f8f9fa;
+                    padding: 20px;
+                }
+
                 .car-item {
-                    background-color: #fff;
-                    border: 1px solid #ccc;
+                    background: linear-gradient(to top, rgba(140, 0, 140, 0.2), white, rgba(140, 0, 140, 0.2));
+                    border: 2px solid #ccc;
                     border-radius: 5px;
                     padding: 20px;
-                    width: 300px;
+                    max-width: 90%; /* Adjust the maximum width as needed */
                     text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start; /* Align items to the start (top) */
                 }
 
                 .car-item img {
@@ -63,6 +75,7 @@ if (isset($_GET['car_id'])) {
                     color: rgb(140, 0, 140);
                     text-align: center;
                     margin-top: 20px;
+
                 }
 
                 button {
@@ -79,17 +92,14 @@ if (isset($_GET['car_id'])) {
                     background-color: #8c008c;
                 }
 
-                .car-item {}
             </style>
         </head>
 
         <body>
-            <!-- Displaying car details -->
-            <h1>Car Details -
-                <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
-            </h1>
+        <div class="car-container">
             <div class="car-item">
-                <!-- Displaying Car Image -->
+                <h1>Car details - <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
+                        </h1>
                 <?php if ($car['car_picture']): ?>
                     <img class="Productimg" src="images/<?php echo $car["car_picture"]; ?>"
                         alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
@@ -102,23 +112,22 @@ if (isset($_GET['car_id'])) {
                 <h2>
                     <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
                 </h2>
-                <p>Year:
-                    <?php echo $car['car_year']; ?>
-                </p>
-                <p>License Plate:
-                    <?php echo $car['car_licenseplate']; ?>
-                </p>
-                <p>Daily Price: €
-                    <?php echo $car['car_dailyprice']; ?>
-                </p>
-                <?php if ($car['car_availability'] == 1): ?>
-                    <button onclick="window.location.href='rent_car.php?car_id=<?php echo $car['car_id']; ?>'">Rent Now</button>
-                <?php else: ?>
-                    <p>Not Available</p>
-                <?php endif; ?>
-            </div>
+                <p>
+                    Year: <?php echo $car['car_year']; ?>
+                        </p>
+                        <p>License Plate:
+                            <?php echo $car['car_licenseplate']; ?>
+                        </p>
+                        <p>Daily Price: €
+                            <?php echo $car['car_dailyprice']; ?>
+                        </p>
+                        <?php if ($car['car_availability'] == 1): ?>
+                            <button onclick="window.location.href='rent_car.php?car_id=<?php echo $car['car_id']; ?>'">Rent Now</button>
+                        <?php else: ?>
+                            <p>Car currentlyNot Available</p>
+                        <?php endif; ?>
 
-            <!-- Include Bootstrap JS -->
+                    </div>
 
             <?php
     } else {
@@ -137,7 +146,36 @@ if (isset($_GET['car_id'])) {
 }
 ?>
 
+<script>
+    function handleRent(carId) {
+        // Simulate payment processing (client-side)
+        const paymentSuccessful = simulatePayment();
 
+        if (paymentSuccessful) {
+            // Simulate updating car availability (client-side)
+            updateCarAvailability(carId);
+
+            // Redirect to rent confirmation page with carId parameter
+            window.location.href = 'rent_confirmation.php?car_id=' + carId;
+        } else {
+            // Handle payment failure
+            alert('Payment unsuccessful. Please try again.');
+        }
+    }
+
+    // Function to simulate payment (replace with actual payment processing logic)
+    function simulatePayment() {
+        // Simulate successful payment (return true for success, false for failure)
+        return Math.random() < 0.8; // 80% success rate (adjust for simulation)
+    }
+
+    // Function to simulate updating car availability (replace with actual logic)
+    function updateCarAvailability(carId) {
+        // Simulate updating car availability in the database (client-side)
+        // This could involve making an AJAX request to update the database, for example
+        console.log('Updating car availability for car ID: ' + carId);
+    }
+</script>
 </body>
 
 </html>

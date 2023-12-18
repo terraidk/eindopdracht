@@ -1,9 +1,9 @@
 <?php class Database
 {
-    private $host = 'localhost';
+    private $host = 'localhost:3307';
     private $db_name = 'eindopdracht';
     private $username = 'root';
-    private $password = 'emir2006';
+    private $password = '';
     public $pdo;
 
     public function __construct()

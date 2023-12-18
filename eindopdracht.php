@@ -33,7 +33,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <!-- NAVBAR CONTENTS -->
             <ul>
                 <!-- Menu Items -->
-                <li class="navbar-li"><a class="navbar-a" href="#" id="inventory">INVENTORY</a></li>
+                <li class="navbar-li"><a class="navbar-a" href="allcars.php" id="inventory">INVENTORY</a></li>
                 <li class="navbar-li"><a class="navbar-a" href="#" id="services">SERVICES</a></li>
                 <li class="navbar-li"><a class="navbar-a" href="#" id="location">LOCATION</a></li>
                 <li class="navbar-li"><a class="navbar-a" href="#" id="contact">CONTACT</a></li>
@@ -100,7 +100,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo '<button class="rent" onclick="window.location.href=\'cars.php?car_id=' . $car["car_id"] . '\'">RENT NOW</button>';
                 echo '<div class="Infodiv">';
                 echo '<p class="item">' . $car["car_brand"] . ' ' . $car["car_model"] . '</p>';
-                echo '<p class="prijs">€' . $car["car_dailyprice"] . ' per dag.</p>';
+                echo '<p class="prijs">€' . $car["car_dailyprice"] . ' per day.</p>';
                 echo '</div>';
                 echo '</div>';
             }
