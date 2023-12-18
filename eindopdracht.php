@@ -4,6 +4,9 @@ session_start();
 require('database.php');
 $database = new Database();
 $pdo = $database->pdo;
+
+$stmt = $pdo->query("SELECT * FROM cars");
+$cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -77,6 +80,33 @@ $pdo = $database->pdo;
             <div class="bar"></div>
         </div>
     </navbar>
+    
+    <div class="inventory" id="inventory1">
+        <h1 class="text">Inventory</h1>
+        <div class="container">
+            <?php
+            foreach ($cars as $car) {
+                echo '<div class="Productdiv">';
+                echo '<div class="Imgdiv">';
+                if ($car['car_picture']) {
+                    echo '<img class="Productimg" src="images/' . $car["car_picture"] . '">';
+                } else {
+                    // Display a placeholder if no image is found
+                    echo '<img class="Productimg" src="images/placeholder.png">';
+                }
+                // Remove this line that's causing the image filename to be printed
+                // echo $car["car_picture"];
+                echo '</div>';
+                echo '<button class="rent" onclick="window.location.href=\'cars.php?car_id=' . $car["car_id"] . '\'">RENT NOW</button>';
+                echo '<div class="Infodiv">';
+                echo '<p class="item">' . $car["car_brand"] . ' ' . $car["car_model"] . '</p>';
+                echo '<p class="prijs">€' . $car["car_dailyprice"] . ' per dag.</p>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+    </div>
 
     <script>
         // This code will run when the DOM content is fully loaded
@@ -101,7 +131,7 @@ $pdo = $database->pdo;
         });
 
         if (servicesLink) {
-            servicesLink.addEventListener("click", function (e) {
+            servicesLink.addEventListener("click", function(e) {
                 e.preventDefault();
                 var targetSection = document.querySelector("#services1");
                 if (targetSection) {
@@ -113,7 +143,7 @@ $pdo = $database->pdo;
             });
         }
 
-        if (contactLink) {
+        if(contactLink) {
             contactLink.addEventListener("click", function (e) {
                 e.preventDefault();
                 var targetSection = document.querySelector("#contact1");
