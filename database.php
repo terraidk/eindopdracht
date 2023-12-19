@@ -1,9 +1,9 @@
 <?php class Database
 {
-    private $host = 'localhost:3307';
+    private $host = 'localhost';
     private $db_name = 'eindopdracht';
     private $username = 'root';
-    private $password = '';
+    private $password = 'emir2006';
     public $pdo;
 
     public function __construct()
@@ -26,7 +26,7 @@
 
     public function getUserById($id)
     {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id");
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id"); // selects the user where the user_id matches with the user_id asked by a website
         $stmt->bindParam(':user_id', $id);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
@@ -34,12 +34,12 @@
 
     public function prepare($sql)
     {
-        return $this->pdo->prepare($sql);
+        return $this->pdo->prepare($sql); // needed to use the "prepare" function with OOP
     }
 
     public function registerUser($name, $email, $password, $address)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // hashes the password
 
         $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, address) VALUES (:name, :email, :password, :address)");
         $stmt->bindParam(':name', $name);
@@ -56,5 +56,24 @@
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function escape($var)
+    {
+        return htmlspecialchars($var);
+    }
+
+    // public function isLoggedInAsAdmin()
+    // {
+    //     // session_start();
+    //     return isset($_SESSION['loggedInAdmin']);
+    // }
+
+    // public function redirectToAdminLogin()
+    // {
+    //     if (!$this->isLoggedInAsAdmin()) {
+    //         header("Location: inloggen.php");
+    //         exit;
+    //     }
+    // }
+
 }
 ?>

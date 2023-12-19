@@ -14,8 +14,9 @@ if (isset($_SESSION['loggedInUser']) && isset($_GET['car_id'])) {
     header("Location: payment.php?user=$loggedInUser&car=$carId");
     exit;
 } else {
+    $carId = $_GET['car_id'];
     // Redirect if user is not logged in or car is not selected
-    header("Location: inloggen.php");
+    header("Location: inloggen.php?car_id=$carId");
     exit;
 }
 ?>

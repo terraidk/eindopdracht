@@ -132,7 +132,9 @@
 
 </head>
 <?php
-session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 
 require("database.php");
 $database = new Database();
@@ -149,22 +151,23 @@ if (isset($_POST["login"])) {
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION["loggedInUser"] = $user["user_id"];
-
-        if (isset($_SESSION['carId'])) {
-            $carId = $_SESSION['carId'];
-            unset($_SESSION['carId']); // Clear the stored car ID
-
-            // Redirect to the original cars.php page with the same car_id
-            header("Location: cars.php?car_id=$carId");
-            exit;
-        } else {
-            // If there's no specific car ID, redirect to a default page
-            header("Location: allcars.php");
-            exit;
+        if ($user['is_admin'] == 1) {
+            session_start();
+            // Check if the user logging in is an admin
+            $_SESSION["loggedInAdmin"] = $user["user_id"];
+            // Redirect to the admin panel
+            header("Location: admin_panel.php");
+        } else if ($user['is_admin'] == 0) {
+            // Regular user login
+            $_SESSION["loggedInUser"] = $user["user_id"];
+            // Redirect to a relevant page for regular users
+            header("Location: eindopdracht.php");
         }
     } else {
         $error_message = "Invalid username/password combination";
+        // Output the error message for debugging purposes
+        echo $error_message;
+        // You might also consider logging this error for better tracking/debugging
     }
 }
 

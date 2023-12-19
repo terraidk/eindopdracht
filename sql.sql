@@ -45,6 +45,14 @@ UPDATE cars
 SET car_availability = 1
 WHERE car_id = 1;
 
+ALTER TABLE users
+ADD COLUMN is_admin TINYINT(1) NOT NULL DEFAULT 0;
+
+UPDATE users
+SET is_admin = 1
+WHERE user_id = 1; -- Specify the user_id of the user you want to make an admin
+
+
 
 select * from users;	
 

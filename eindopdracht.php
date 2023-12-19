@@ -1,6 +1,6 @@
 <?php
-
 session_start();
+
 require('database.php');
 $database = new Database();
 $pdo = $database->pdo;
@@ -43,7 +43,8 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
 
         <?php
-        if (!isset($_SESSION["loggedInUser"])) { // Check if the user is not logged in
+        if (!isset($_SESSION["loggedInUser"])) {
+
             ?>
             <ul>
                 <!-- Display the Login Link -->
