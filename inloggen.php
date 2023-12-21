@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,7 +156,6 @@ if (isset($_POST["login"])) {
 
     if ($user && password_verify($password, $user['password'])) {
         if ($user['is_admin'] == 1) {
-            session_start();
             // Check if the user logging in is an admin
             $_SESSION["loggedInAdmin"] = $user["user_id"];
             // Redirect to the admin panel

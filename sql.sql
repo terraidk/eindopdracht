@@ -9,7 +9,8 @@ user_id int primary key auto_increment,
 name varchar(50) not null,
 email varchar(255) not null unique,
 password varchar(255) not null,
-address text not null
+address text not null,
+is_admin tinyint(1) not null default 0
 );
 
 create table cars (
@@ -50,7 +51,7 @@ ADD COLUMN is_admin TINYINT(1) NOT NULL DEFAULT 0;
 
 UPDATE users
 SET is_admin = 1
-WHERE user_id = 1; -- Specify the user_id of the user you want to make an admin
+WHERE user_id = 2; 
 
 
 

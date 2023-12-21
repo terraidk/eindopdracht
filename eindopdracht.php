@@ -68,9 +68,8 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </ul>
             <?php
         }
-        if (isset($_GET['uitloggen'])) { // Check if the 'uitloggen' parameter is set
-            session_destroy(); // Destroy the user's session
-            header("location: eindopdracht.php"); // Redirect to the eindopdracht.php page
+        if (isset($_GET['uitloggen'])) { // Check if the 'uitloggen' parameter is set // Destroy the user's session
+            header("Location: logout.php"); // Redirect to the eindopdracht.php page
             exit; // Terminate further code execution
         }
         ?>
