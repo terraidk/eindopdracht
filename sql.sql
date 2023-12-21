@@ -21,7 +21,7 @@ car_year smallint(4) not null,
 car_licenseplate varchar(10) not null unique,
 car_availability bool not null,
 car_dailyprice decimal(6,2),
-car_picture blob
+car_picture longblob
 ); 
 
 create table renting (

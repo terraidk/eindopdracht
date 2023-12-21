@@ -1,16 +1,15 @@
 <?php
-// start your session
 session_start();
-// if the user is not an admin, redirect to the login page
+
+// Redirect if not logged in as admin
 if (!isset($_SESSION['loggedInAdmin'])) {
     header("Location: inloggen.php");
     session_destroy();
+    exit; // Terminate further execution
 }
+
 require('database.php');
-
 $database = new Database();
-
-// Establish the database connection here
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $brand = $_POST['brand'];
@@ -22,29 +21,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if a file was uploaded
     if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
-        $image = file_get_contents($_FILES['car_picture']['tmp_name']);
+        $imageTmpName = $_FILES['car_picture']['tmp_name'];
+        $imageData = file_get_contents($imageTmpName); // Read image data from file
     } else {
-        // If no file was uploaded, set a default image or handle the case as needed
-        $image = file_get_contents('default_image.jpg');
+        // Handle no file uploaded scenario
+        $imageData = file_get_contents('default_image.jpg'); // Load default image
     }
 
     // Insert data into the database
-    $stmt = $pdo->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $database->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $stmt->bindParam(1, $brand);
     $stmt->bindParam(2, $model);
     $stmt->bindParam(3, $year);
     $stmt->bindParam(4, $license_plate);
     $stmt->bindParam(5, $availability);
     $stmt->bindParam(6, $daily_price);
-    $stmt->bindParam(7, $image, PDO::PARAM_LOB);
+    $stmt->bindParam(7, $imageData, PDO::PARAM_LOB); // Ensure correct binding
 
     if ($stmt->execute()) {
-        header("Location: car.php");
+        header("Location: admin_panel.php?addedCar=true");
+        exit; // Terminate further execution after redirection
     } else {
         echo "Error adding the car.";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -81,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
             const addedCar = urlParams.get('addedCar');
 
