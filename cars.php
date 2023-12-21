@@ -27,72 +27,7 @@ if (isset($_GET['car_id'])) {
             <title>Available Cars</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-pzjw8f+ua7p8p3dpu5n5s5t3kmw1jh5f5bG5GfPQ1YzF+8Qch9i/A5Fw5+5L2t5zH" crossorigin="anonymous">
-            <style>
-                @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
-
-                /* Custom CSS */
-                body {
-                    background-color: #f8f9fa;
-                    font-family: "Poppins", sans-serif;
-                }
-
-                .car-list {
-                    display: flex;
-                    flex-wrap: wrap;
-                    gap: 20px;
-                    justify-content: center;
-                    padding: 20px;
-                }
-
-                .car-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    background-color: #f8f9fa;
-                    padding: 20px;
-                }
-
-                .car-item {
-                    background: linear-gradient(to top, rgba(140, 0, 140, 0.2), white, rgba(140, 0, 140, 0.2));
-                    border: 2px solid #ccc;
-                    border-radius: 5px;
-                    padding: 20px;
-                    max-width: 90%; /* Adjust the maximum width as needed */
-                    text-align: center;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: flex-start; /* Align items to the start (top) */
-                }
-
-                .car-item img {
-                    max-width: 100%;
-                    height: auto;
-                    border-radius: 5px;
-                }
-
-                h1 {
-                    color: rgb(140, 0, 140);
-                    text-align: center;
-                    margin-top: 20px;
-
-                }
-
-                button {
-                    background-color: rgb(140, 0, 140);
-                    color: #fff;
-                    border: none;
-                    padding: 8px 16px;
-                    border-radius: 5px;
-                    cursor: pointer;
-                    transition: background-color 0.3s ease;
-                }
-
-                button:hover {
-                    background-color: #8c008c;
-                }
-
-            </style>
+            <link rel="stylesheet" href="styles/cars.css">
         </head>
 
         <body>

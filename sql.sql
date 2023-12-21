@@ -54,10 +54,7 @@ SET is_admin = 1
 WHERE user_id = 2; 
 
 
-
 select * from users;	
-
-use test;
 
 select * from users;
 

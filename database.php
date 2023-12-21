@@ -60,20 +60,5 @@
     {
         return htmlspecialchars($var);
     }
-
-    // public function isLoggedInAsAdmin()
-    // {
-    //     // session_start();
-    //     return isset($_SESSION['loggedInAdmin']);
-    // }
-
-    // public function redirectToAdminLogin()
-    // {
-    //     if (!$this->isLoggedInAsAdmin()) {
-    //         header("Location: inloggen.php");
-    //         exit;
-    //     }
-    // }
-
 }
 ?>
