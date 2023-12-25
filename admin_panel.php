@@ -9,7 +9,7 @@ if (!isset($_SESSION['loggedInAdmin'])) {
 require('database.php');
 
 $database = new Database();
-
+$result = "";
 // Establish the database connection here
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -22,7 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Check if a file was uploaded
     if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
-        $image = file_get_contents($_FILES['car_picture']['tmp_name']);
+        // Get the uploaded image
+        $image = ($_FILES['car_picture']['tmp_name']);
+        $fileContent = file_get_contents($image);
+        $image = base64_encode($fileContent);
     } else {
         // If no file was uploaded, set a default image or handle the case as needed
         $image = file_get_contents('default_image.jpg');
@@ -38,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(6, $daily_price);
     $stmt->bindParam(7, $image, PDO::PARAM_LOB);
 
-    if ($stmt->execute()) {
-        header("Location: car.php");
+    if ($result = $stmt->execute()) {
+        header("Location: admin_panel.php?addedCar=true");
     } else {
         echo "Error adding the car.";
     }

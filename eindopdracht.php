@@ -24,7 +24,14 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 </head>
 
 <body>
-    <navbar>
+    <nav>
+
+    <div class="hamburger-menu">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+
         <!-- LOGO -->
         <div class="logo_top_left">
             <a href="eindopdracht.php"><img class="logo_navbar" src="images/logo.png" alt="logo"></a>
@@ -37,7 +44,14 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <li class="navbar-li"><a class="navbar-a" href="#" id="services">SERVICES</a></li>
                 <li class="navbar-li"><a class="navbar-a" href="#" id="location">LOCATION</a></li>
                 <li class="navbar-li"><a class="navbar-a" href="#" id="contact">CONTACT</a></li>
+
                 <!-- Search Bar -->
+                <div class="search-container">
+                    <form action="allcars.php" method="GET">
+                        <input type="text" placeholder="Search cars..." name="search">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
                 </li>
             </ul>
         </div>
@@ -73,13 +87,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
             exit; // Terminate further code execution
         }
         ?>
-
-        <div class="hamburger-menu">
-            <div class="bar"></div>
-            <div class="bar"></div>
-            <div class="bar"></div>
-        </div>
-    </navbar>
+    </nav>
     
     <div class="inventory" id="inventory1">
         <h1 class="text">Inventory</h1>
@@ -89,10 +97,10 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo '<div class="Productdiv">';
                 echo '<div class="Imgdiv">';
                 if ($car['car_picture']) {
-                    echo '<img class="Productimg" src="images/' . $car["car_picture"] . '">';
+                    echo '<img class="Productimg" src="data:image/jpeg;base64,' . base64_encode($car['car_picture']) . '">';
                 } else {
                     // Display a placeholder if no image is found
-                    echo '<img class="Productimg" src="images/placeholder.png">';
+                    echo '<img class="Productimg" src="images/default_image.png">';
                 }
                 // Remove this line that's causing the image filename to be printed
                 // echo $car["car_picture"];
@@ -108,103 +116,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <script>
-        // This code will run when the DOM content is fully loaded
-        document.addEventListener("DOMContentLoaded", function () {
-            var inventoryLink = document.querySelector("#inventory");
-            var servicesLink = document.querySelector("#services");
-            var contactLink = document.querySelector("#contact");
-            var locationLink = document.querySelector("#location");
-
-            // Add event listeners to menu links
-            if (inventoryLink) {
-                inventoryLink.addEventListener("click", function (e) {
-                    e.preventDefault(); // Prevent the default behavior of the link
-                    var targetSection = document.querySelector("#inventory1"); // Get the target section
-                    if (targetSection) {
-                        targetSection.scrollIntoView({
-                            behavior: "smooth", // Smooth scrolling animation
-                            block: "start" // Scroll to the top of the target section
-                        });
-                    }
-                }
-        });
-
-        if (servicesLink) {
-            servicesLink.addEventListener("click", function(e) {
-                e.preventDefault();
-                var targetSection = document.querySelector("#services1");
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                }
-            });
-        }
-
-        if(contactLink) {
-            contactLink.addEventListener("click", function (e) {
-                e.preventDefault();
-                var targetSection = document.querySelector("#contact1");
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                }
-            });
-        }
-
-        if (locationLink) {
-            locationLink.addEventListener("click", function (e) {
-                e.preventDefault();
-                var targetSection = document.querySelector("#location1");
-                if (targetSection) {
-                    targetSection.scrollIntoView({
-                        behavior: "smooth",
-                        block: "start"
-                    });
-                }
-            });
-        }
-
-
-        const hamburgermenu = document.querySelector(".hamburger-menu");
-        const navMenu = document.querySelector(".menu ul"); // Select the specific ul element
-
-        // Add a click event listener to the hamburger menu icon
-        hamburgermenu.addEventListener("click", () => {
-            hamburgermenu.classList.toggle("active"); // Toggle the 'active' class on the menu icon
-            navMenu.classList.toggle("active"); // Toggle the 'active' class on the menu items
-        });
-
-        // Close the mobile menu when a link is clicked
-        document.querySelectorAll(".frontface-a").forEach((link) => {
-            link.addEventListener("click", () => {
-                hamburgermenu.classList.remove("active"); // Remove the 'active' class from the menu icon
-                navMenu.classList.remove("active"); // Remove the 'active' class from the menu items
-            });
-        });
-
-        const winkel = document.getElementById("winkel");
-        const winkelMand = document.getElementById("pr-winkel");
-
-        // Show/hide the shopping cart when clicked
-        winkel.addEventListener("click", () => {
-            winkel.classList.toggle("active"); // Toggle the 'active' class on the shopping cart icon
-            winkelMand.classList.toggle("active"); // Toggle the 'active' class on the shopping cart content
-        });
-
-        const boxlog = document.getElementById("boxlog");
-        const uitloggen = document.getElementById("uitloggen");
-
-        // Show/hide user profile and logout button
-        boxlog.addEventListener("click", () => {
-            boxlog.classList.toggle("drop"); // Toggle the 'drop' class on the user profile
-            uitloggen.classList.toggle("drop"); // Toggle the 'drop' class on the logout button
-        });
-    </script>
+    <script src="js/eindopdracht.js"></script>
 
 </body>
 

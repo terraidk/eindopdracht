@@ -1,5 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
+/* Color Scheme */
+:root {
+    --primary-color: rgb(140, 0, 140);
+    --subtle-color: #902404;
+    --rare-color: #04905c;
+}
 /* Custom CSS */
 body {
     background-color: #f8f9fa;
@@ -60,4 +66,26 @@ button {
 
 button:hover {
     background-color: #8c008c;
+}
+
+.back-to-home {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+.back-to-home-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: 0.5s ease;
+}
+
+.back-to-home-btn:hover {
+    background-color: var(--subtle-color);
 }
