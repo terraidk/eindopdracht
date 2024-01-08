@@ -59,7 +59,7 @@ if (isset($_GET['car_id'])) {
                         <?php if ($car['car_availability'] == 1): ?>
                             <button onclick="window.location.href='rent_car.php?car_id=<?php echo $car['car_id']; ?>'">Rent Now</button>
                         <?php else: ?>
-                            <p>Car currentlyNot Available</p>
+                                        <p>Car is currently <b>unavailable.</b></p>
                         <?php endif; ?>
 
                     </div>
@@ -68,15 +68,11 @@ if (isset($_GET['car_id'])) {
     } else {
         // If the car with the specified car_id is not found, display an error or redirect to another page
         echo "Car not found";
-        // Alternatively, redirect to another page:
-        // header("Location: error_page.php");
         exit; // Terminate further code execution
     }
 } else {
     // If no car_id is provided in the URL, display a message or redirect to another page
     echo "No car selected";
-    // Alternatively, redirect to another page:
-    // header("Location: select_car.php");
     exit; // Terminate further code execution
 }
 ?>

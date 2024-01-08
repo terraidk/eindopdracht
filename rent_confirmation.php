@@ -1,33 +1,30 @@
 <?php
+session_start();
+require('database.php');
+$database = new Database();
+$pdo = $database->pdo;
+
+if (isset($_GET['car_id'])) {
+    $carId = $_GET['car_id'];
+
+    // Insert into the renting table to record the rent transaction
+    $stmt = $pdo->prepare("INSERT INTO renting (car_id, rent_startdate, rent_enddate) VALUES (:car_id, NOW(), NOW() + INTERVAL 7 DAY)");
+    $stmt->bindParam(':car_id', $carId, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        // Update car availability in the cars table
+        $updateStmt = $pdo->prepare("UPDATE cars SET car_availability = 0 WHERE car_id = :car_id");
+        $updateStmt->bindParam(':car_id', $carId, PDO::PARAM_INT);
+        $updateStmt->execute();
+
+        // Display rent confirmation
+        echo "<h1>Rent Confirmed!</h1>";
+        echo "<p>You have successfully rented the car. Enjoy your ride!</p>";
+    } else {
+        echo "Error renting the car.";
+    }
+} else {
+    echo "No car selected";
+    exit;
+}
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rent Confirmation</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-    <div class="confirmation-container">
-        <h1>Rent Confirmation</h1>
-        <p>Congratulations! You have successfully rented the car.</p>
-        <p>Your rental details:</p>
-        <ul>
-            <!-- Display rental details -->
-            <li>User:
-                <?php echo isset($_SESSION['loggedInUser']) ? $_SESSION['loggedInUser'] : ''; ?>
-            </li>
-            <li>Car ID:
-                <?php echo isset($_GET['car_id']) ? $_GET['car_id'] : 'N/A'; ?>
-            </li>
-        </ul>
-        <p>Thank you for using our services!</p>
-        <a href="eindopdracht.php">Go to Dashboard</a>
-    </div>
-</body>
-
-</html>

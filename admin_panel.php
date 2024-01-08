@@ -1,51 +1,69 @@
 <?php
-// start your session
 session_start();
-// if the user is not an admin, redirect to the login page
+
+// Redirect if user is not an admin
 if (!isset($_SESSION['loggedInAdmin'])) {
     header("Location: inloggen.php");
     session_destroy();
+    exit;
 }
+
 require('database.php');
 
+// Establish the database connection here
 $database = new Database();
 $result = "";
-// Establish the database connection here
+$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $brand = $_POST['brand'];
-    $model = $_POST['model'];
-    $year = $_POST['year'];
-    $license_plate = $_POST['license_plate'];
-    $availability = isset($_POST['availability']) ? 1 : 0;
-    $daily_price = $_POST['daily_price'];
+    if (isset($_POST['brand'])) {
+        $brand = $_POST['brand'];
+        $model = $_POST['model'];
+        $year = $_POST['year'];
+        $license_plate = $_POST['license_plate'];
+        $availability = isset($_POST['availability']) ? 1 : 0;
+        $daily_price = $_POST['daily_price'];
 
-    // Check if a file was uploaded
-    if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
-        // Get the uploaded image
-        $image = ($_FILES['car_picture']['tmp_name']);
-        $fileContent = file_get_contents($image);
-        $image = base64_encode($fileContent);
-    } else {
-        // If no file was uploaded, set a default image or handle the case as needed
-        $image = file_get_contents('default_image.jpg');
+        // Check if a file was uploaded
+        if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
+            // Get the uploaded image
+            $image = ($_FILES['car_picture']['tmp_name']);
+            $fileContent = file_get_contents($image);
+            $image = base64_encode($fileContent);
+        } else {
+            // If no file was uploaded, set a default image or handle the case as needed
+            $image = file_get_contents('default_image.jpg');
+        }
+
+        // Insert data into the database
+        $stmt = $database->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        if ($stmt->execute([$brand, $model, $year, $license_plate, $availability, $daily_price, $image])) {
+            header("Location: admin_panel.php?addedCar=true");
+            exit;
+        } else {
+            echo "Error adding the car.";
+        }
     }
 
-    // Insert data into the database
-    $stmt = $pdo->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bindParam(1, $brand);
-    $stmt->bindParam(2, $model);
-    $stmt->bindParam(3, $year);
-    $stmt->bindParam(4, $license_plate);
-    $stmt->bindParam(5, $availability);
-    $stmt->bindParam(6, $daily_price);
-    $stmt->bindParam(7, $image, PDO::PARAM_LOB);
+    if (isset($_POST['addAdmin'])) {
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashing the password for security
 
-    if ($result = $stmt->execute()) {
-        header("Location: admin_panel.php?addedCar=true");
-    } else {
-        echo "Error adding the car.";
+        $existingUser = $database->getUserByEmail($email);
+
+        if (!$existingUser) {
+            if ($database->addAdmin($name, $email, $password)) {
+                header("Location: admin_panel.php?addedAdmin=true");
+                exit;
+            } else {
+                $error = "Error adding the admin.";
+            }
+        } else {
+            $error = "Email already in use by someone else.";
+        }
     }
+
 }
 ?>
 <!DOCTYPE html>
@@ -57,8 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <h2>Add a New Car</h2>
+    <div class="forms">
+    
     <form action="add_car.php" method="POST" enctype="multipart/form-data">
+        <h2 style="text-align: center;">Add a New Car</h2>
         <label>Brand:</label>
         <input type="text" name="brand" required><br><br>
 
@@ -82,6 +102,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <input type="submit" value="Add Car">
     </form>
+
+  
+    <form action="admin_panel.php" method="POST">
+        <h2 style="text-align: center;">Add a New Admin User</h2>
+            <input type="hidden" name="addAdmin" value="true">
+
+            <label>Name:</label>
+            <input type="text" name="name" required><br><br>
+
+            <label>Email:</label>
+            <input type="text" name="email" required><br><br>
+
+            <label>Password:</label>
+            <input type="password" name="password" required><br><br>
+
+            <input type="submit" value="Add Admin User">
+    <?php if ($error): ?>
+        <p style='color: red; text-align: center; font-size: 20px;'>
+            <?php echo $error; ?>
+        </p>
+    <?php endif; ?>
+</form>
+</div>
+
+<a href="active_rents.php"
+    style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Go
+    to Active Rents</a>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -108,6 +155,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
             }
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const addedAdmin = urlParams.get('addedAdmin'); // Corrected variable name
+
+        if (addedAdmin === 'true') {
+            const message = document.createElement('div');
+            message.textContent = 'Admin added successfully!';
+            message.style.position = 'fixed';
+            message.style.top = '20px';
+            message.style.right = '20px';
+            message.style.padding = '10px 20px';
+            message.style.backgroundColor = '#42b883';
+            message.style.color = '#fff';
+            message.style.borderRadius = '5px';
+            message.style.zIndex = '9999';
+
+            document.body.appendChild(message);
+
+            // Automatically remove the message after a few seconds (optional)
+            setTimeout(function () {
+                message.remove();
+            }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+        }
+    });
     </script>
 </body>
 

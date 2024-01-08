@@ -10,16 +10,23 @@ body {
 
 h2 {
     color: rgb(140, 0, 140);
+    
+}
+
+.forms {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 form {
     max-width: 400px;
-    margin: 0 auto;
     background-color: #fff;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+    flex: 1;
 }
 
 label {
@@ -31,7 +38,8 @@ label {
 input[type="text"],
 input[type="number"],
 input[type="file"],
-input[type="submit"] {
+input[type="submit"],
+input[type="password"] {
     width: calc(100% - 12px);
     padding: 8px;
     margin-bottom: 10px;
@@ -40,8 +48,8 @@ input[type="submit"] {
 }
 
 input[type="checkbox"] {
-    margin-bottom: 5px; /* Adjust the checkbox margin */
-    display: inline-block; /* Make checkbox inline with label */
+    margin-bottom: 5px;
+    display: inline-block;
 }
 
 input[type="submit"] {

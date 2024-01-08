@@ -60,5 +60,27 @@
     {
         return htmlspecialchars($var);
     }
+    public function addAdmin($name, $email, $password)
+    {
+        try {
+            $stmt = $this->prepare("INSERT INTO users (name, email, password, address, is_admin) VALUES (?, ?, ?, '', 1)");
+            $stmt->execute([$name, $email, $password]);
+            return true;
+        } catch (PDOException $e) {
+            ($e->getMessage());
+            return false;
+        }
+    }
+
+    public function getAllRents()
+    {
+        try {
+            $stmt = $this->prepare("SELECT * FROM renting");
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $result;
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
 }
 ?>
