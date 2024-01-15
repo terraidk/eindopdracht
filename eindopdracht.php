@@ -90,7 +90,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </nav>
     
     <div class="inventory" id="inventory1">
-        <h1 class="text">Inventory</h1>
+        <h1 class="text" style="text-align: center; color: rgb(140, 0, 140);">Inventory</h1>
         <div class="container">
             <?php
             foreach ($cars as $car) {

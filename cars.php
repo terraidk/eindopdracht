@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require('database.php'); // Include your database connection file
 $database = new Database();
 $pdo = $database->pdo;
@@ -35,14 +36,13 @@ if (isset($_GET['car_id'])) {
             <div class="car-item">
                 <h1>Car details - <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
                         </h1>
-                <?php if ($car['car_picture']): ?>
-                                        <img class="Productimg" src="images/<?php echo base64_encode($car['car_picture']); ?>"
-                                            alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
-                <?php else: ?>
-                    <!-- Display a placeholder if no image is found -->
-                    <img class="Productimg" src="images/placeholder.png" alt="Placeholder">
-                <?php endif; ?>
-
+                    <?php if ($car['car_picture']) {
+                                echo '<img class="Productimg" src="data:image/jpeg;base64,' . base64_encode($car['car_picture']) . '">';
+                            } else {
+                                // Display a placeholder if no image is found
+                                echo '<img class="Productimg" src="images/default_image.png">';
+                            }
+                            ?>
                 <!-- Displaying Car Details -->
                 <h2>
                     <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>

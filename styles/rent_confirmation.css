@@ -1,0 +1,136 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+
+* {
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url(../images/rent.png);
+    background-size: cover;
+    background-position: center;
+    backdrop-filter: blur(10px);
+}
+
+.container {
+    text-align: center;
+    background: linear-gradient(to top, rgba(140, 0, 140, 0.6), rgba(0, 0, 0, 0.2), rgba(140, 0, 140, 0.6));
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white;
+    margin: 200px;
+    backdrop-filter: blur(50px);
+}
+
+h1 {
+    color: white;
+    font-size: 40px;
+}
+
+p {
+    color: white;
+    font-size: 20px;
+}
+
+.rentbutton {
+    padding: 10px 20px;
+    background-color: #42b883;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.rentbutton:hover {
+    background-color: #36a270;
+}
+
+input[type="date"] {
+    padding: 10px 20px;
+    background-color: #ffffff;
+    color: black;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.Productimg {
+    display: flex;
+    margin: 20px auto;
+    max-width: 660px;
+    max-height: 500px;
+    border-radius: 2px;
+}
+
+input.price {
+    background-color: rgba(0, 0, 0, 0);
+    color: white;
+    text-align: center;
+    font-size: 26px;
+    border: none;
+    outline: none;
+}
+
+.back-button {
+    padding: 10px 20px;
+    background-color: rgb(140, 0, 140);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.back-button:hover {
+
+}
+
+.back-button {
+    border-radius: 4px;
+    background-color: rgb(140, 0, 140);
+    border: none;
+    color: #fff;
+    text-align: center;
+    font-size: 24px;
+    padding: 10px 20px;
+    width: 220px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 30px;
+    box-shadow: 0 10px 20px -8px rgba(0, 0, 0,.7);
+    text-decoration: none;
+  }
+  
+.bcak-button{
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+.back-button:after {
+    content: '»';
+    position: absolute;
+    opacity: 0;  
+    top: 375px;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+.back-button:hover{
+    padding-right: 24px;
+    padding-left:8px;
+  }
+  
+.back-button:hover:after {
+    opacity: 1;
+    right: 10px;
+  }

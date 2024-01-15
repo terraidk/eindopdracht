@@ -18,7 +18,6 @@ session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
 require("database.php");
 $database = new Database();
 $pdo = $database->pdo;
@@ -28,28 +27,31 @@ $password = isset($_POST["password"]) ? $_POST["password"] : "";
 
 $error_message = ""; // Initialize an empty error message
 
-if (isset($_POST["login"])) {
+if ($email) {
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
     $stmt->execute(['email' => $email]);
-    $user = $stmt->fetch();
+    $user = $stmt->fetch(); // Fetch the user details
 
     if ($user && password_verify($password, $user['password'])) {
         if ($user['is_admin'] == 1) {
-            // Check if the user logging in is an admin
             $_SESSION["loggedInAdmin"] = $user["user_id"];
-            // Redirect to the admin panel
             header("Location: admin_panel.php");
+            exit();
         } else if ($user['is_admin'] == 0) {
-            // Regular user login
             $_SESSION["loggedInUser"] = $user["user_id"];
-            // Redirect to a relevant page for regular users
-            header("Location: eindopdracht.php");
+
+            $carId = isset($_GET['car_id']) ? $_GET['car_id'] : null;
+            if ($carId !== null) {
+                $_SESSION['carId'] = $carId; // Storing carId in session
+                header("Location: rent_car.php?car_id=$carId");
+                exit();
+            } else {
+                header("Location: eindopdracht.php");
+                exit();
+            }
         }
     } else {
         $error_message = "Invalid username/password combination";
-        // Output the error message for debugging purposes
-        echo $error_message;
-        // You might also consider logging this error for better tracking/debugging
     }
 }
 
@@ -79,7 +81,6 @@ if (isset($_POST["register"])) {
 
             <button type="submit" name="login" class="btn">Login</button>
 
-            <div class="error-message">
                 <?php if (!empty($error_message)): ?>
                     <div class="error-message">
                         <p style='color: red; text-align: center;'>
@@ -87,7 +88,6 @@ if (isset($_POST["register"])) {
                         </p>
                     </div>
                 <?php endif; ?>
-            </div>
 
             <div class="register-link">
                 <p>Don't have an account? <a href="register.php">Register</a> </p>
@@ -117,10 +117,9 @@ if (isset($_POST["register"])) {
 
                 document.body.appendChild(message);
 
-                // Automatically remove the message after a few seconds (optional)
                 setTimeout(function () {
                     message.remove();
-                }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+                }, 5000); 
             }
         });
     </script>

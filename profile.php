@@ -5,12 +5,38 @@ require("database.php"); // Include the PDO setup
 
 if (!isset($_SESSION['loggedInUser'])) {
     header("Location: eindopdracht.php");
-    exit(); // Ensure script stops if the user isn't valid
+    exit(); // Ensure the script stops if the user isn't valid
 }
 
 $db = new Database();
 
+// Get user information
+$id = $_SESSION['loggedInUser'];
+$query = $db->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id");
+$query->bindParam(':user_id', $id);
+$query->execute();
+$result = $query->fetch(PDO::FETCH_ASSOC);
+
+if (!$result) {
+    header("Location: eindopdracht.php");
+    exit();
+}
+
+$res_id = $result['user_id'];
+$res_name = $result['name'];
+$res_Email = $result['email'];
+$res_address = $result['address'];
+
+// Fetch rented cars information
+$rentedCarsQuery = $db->pdo->prepare("SELECT cars.*, renting.rent_startdate, renting.rent_enddate
+                                      FROM renting
+                                      JOIN cars ON renting.car_id = cars.car_id
+                                      WHERE renting.user_id = :user_id");
+$rentedCarsQuery->bindParam(':user_id', $res_id);
+$rentedCarsQuery->execute();
+$rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,25 +50,8 @@ $db = new Database();
 
 <body>
     <div class="nav">
-
         <div class="right-links">
-            <?php
-            // Get user information using PDO
-            $id = $_SESSION['loggedInUser'];
-            $query = $db->pdo->prepare("SELECT * FROM users WHERE user_id = :user_id");
-            $query->bindParam(':user_id', $id);
-            $query->execute();
-            $result = $query->fetch(PDO::FETCH_ASSOC);
-
-            if ($result) {
-                $res_id = $result['user_id'];
-                $res_name = $result['name'];
-                $res_Email = $result['email'];
-                $res_address = $result['address'];
-
-                echo "<a href='profileedit.php?id=$res_id'>Edit Profile</a>";
-            }
-            ?>
+            <a href='profileedit.php?id=<?php echo $res_id ?>'>Edit Profile</a>
             <a href="logout.php"> <button class="btn">Log Out</button> </a>
         </div>
     </div>
@@ -50,25 +59,57 @@ $db = new Database();
         <div class="main-box top">
             <div class="top">
                 <div class="box">
-                    <p>Hello <b>
-                            <?php echo $res_name ?? '' ?>
+                    <p>Hello <b><?php echo $res_name ?? '' ?>
                         </b>, Welcome</p>
                 </div>
                 <div class="box">
-                    <p>Your email is <b>
-                            <?php echo $res_Email ?? '' ?>
+                    <p>Your email is <b><?php echo $res_Email ?? '' ?>
                         </b>.</p>
                 </div>
             </div>
             <div class="bottom">
                 <div class="box">
-                    <p style="text-align: center;">Your address is: <b>
-                            <?php echo $res_address ?? '' ?>
+                    <p style="text-align: center;">Your address is: <b><?php echo $res_address ?? '' ?>
                         </b>.</p>
-                </div>
-            </div>
+                    </div>
+                    </div>
+                    </div>
+
+        <div class="rented-cars">
+            <h2>Rented Cars</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Car</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <?php foreach ($rentedCars as $car): ?>
+                <tr>
+                    <td>
+                        <?php if ($car['car_picture']): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($car['car_picture']); ?>"
+                                alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
+                        <?php else: ?>
+                            <img src="images/placeholder.png" alt="Placeholder">
+                        <?php endif; ?>
+                        <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
+                    </td>
+                    <td>
+                        <?php echo $car['rent_startdate']; ?>
+                    </td>
+                    <td>
+                        <?php echo $car['rent_enddate']; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
         </div>
     </main>
 </body>
+
 
 </html>
