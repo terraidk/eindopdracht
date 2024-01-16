@@ -2,7 +2,7 @@
 session_start();
 
 // Redirect if user is not an admin
-if (!isset($_SESSION['loggedInAdmin'])) {
+if (!isset($_SESSION['loggedInAdmin']) && !isset($_SESSION['loggedInWorker'])) {
     header("Location: inloggen.php");
     session_destroy();
     exit;
@@ -19,7 +19,6 @@ require_once('database.php');
 <head>
     <title>Active Rents</title>
     <style>
-        /* Style your table here */
         table {
             border-collapse: collapse;
             width: 100%;

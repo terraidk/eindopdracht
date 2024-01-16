@@ -6,7 +6,7 @@ require_once('database.php');
 $database = new Database();
 $pdo = $database->pdo;
 
-if (!isset($_SESSION['loggedInAdmin'])) {
+if (!isset($_SESSION['loggedInAdmin']) && !isset($_SESSION['loggedInWorker'])) {
     header("Location: inloggen.php");
     exit;
 }
@@ -35,6 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $delete_stmt = $database->prepare("DELETE FROM renting WHERE rent_id = ?");
     $delete_stmt->execute([$rent_id]);
 
+    // Update the car's availability to make it available again
+    $update_car_stmt = $database->prepare("UPDATE cars SET car_availability = 1 WHERE car_id = ?");
+    $update_car_stmt->execute([$rent['car_id']]);
+
     // Redirect to the manage rents page after deletion
     header("Location: manage_rents.php");
     exit;
@@ -53,11 +57,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="delete-rent-confirmation">
         <h2>Delete Rent</h2>
         <p>Are you sure you want to delete this rent?</p>
-        <p>Rent ID:
-            <?php echo $rent['rent_id']; ?>
+        <p>Rent ID: <?php echo $rent['rent_id']; ?>
         </p>
         <p>Rent Date:
             <?php echo $rent['rent_date']; ?>
+        </p>
+        <p>
+            Car ID: <?php echo $rent['car_id']; ?>
+        </p>
+        <p>
+            Customer User ID:
+            <?php echo $rent['user_id']; ?>
         </p>
         <!-- Display more details as needed -->
 

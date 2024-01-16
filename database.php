@@ -82,5 +82,19 @@
             echo "Error: " . $e->getMessage();
         }
     }
+
+    public function addWorker($name, $email, $password, $address)
+    {
+        try {
+            $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, address, is_admin) VALUES (?, ?, ?, ?, 2)");
+            return $stmt->execute([$name, $email, $password, $address]);
+        } catch (PDOException $e) {
+            // Handle the exception as needed, you might want to log it or display an error message
+            echo "Error: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
 }
 ?>

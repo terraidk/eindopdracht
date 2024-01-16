@@ -35,7 +35,7 @@ $rentedCarsQuery = $db->pdo->prepare("SELECT cars.*, renting.rent_startdate, ren
 $rentedCarsQuery->bindParam(':user_id', $res_id);
 $rentedCarsQuery->execute();
 $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
-?>
+?>  
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,60 +56,58 @@ $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
     <main>
-        <div class="main-box top">
-            <div class="top">
-                <div class="box">
-                    <p>Hello <b><?php echo $res_name ?? '' ?>
-                        </b>, Welcome</p>
+        <div class="main-box">
+            <div class="box">
+                <p style="text-align: center;">Hello <b><?php echo $res_name ?? '' ?>
+                    </b>, Welcome</p>
                 </div>
                 <div class="box">
-                    <p>Your email is <b><?php echo $res_Email ?? '' ?>
-                        </b>.</p>
+                <p style="text-align: center;">Your email is <b><?php echo $res_Email ?? '' ?>
+                    </b>.</p>
                 </div>
+            <div class="box">
+                <p style="text-align: center;">Your address is: <b><?php echo $res_address ?? '' ?>
+                    </b>.</p>
             </div>
-            <div class="bottom">
-                <div class="box">
-                    <p style="text-align: center;">Your address is: <b><?php echo $res_address ?? '' ?>
-                        </b>.</p>
-                    </div>
-                    </div>
-                    </div>
-
-        <div class="rented-cars">
-            <h2>Rented Cars</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Car</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($rentedCars as $car): ?>
-                <tr>
-                    <td>
-                        <?php if ($car['car_picture']): ?>
-                            <img src="data:image/jpeg;base64,<?php echo base64_encode($car['car_picture']); ?>"
-                                alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
-                        <?php else: ?>
-                            <img src="images/placeholder.png" alt="Placeholder">
-                        <?php endif; ?>
-                        <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
-                    </td>
-                    <td>
-                        <?php echo $car['rent_startdate']; ?>
-                    </td>
-                    <td>
-                        <?php echo $car['rent_enddate']; ?>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            <div class="rented-cars">
+                <h2>Rented Cars</h2>
+                <?php if (isset($rentedCars) && is_array($rentedCars) && !empty($rentedCars)): ?>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Car</th>
+                                            <th>Start Date</th>
+                                            <th>End Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($rentedCars as $car): ?>
+                                            <tr>
+                                                <td>
+                                                    <?php if ($car['car_picture']): ?>
+                                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($car['car_picture']); ?>"
+                                                            alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
+                                                    <?php else: ?>
+                                                        <img src="images/placeholder.png" alt="Placeholder">
+                                                    <?php endif; ?>
+                                                    <?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $car['rent_startdate']; ?>
+                                                </td>
+                                                <td>
+                                                    <?php echo $car['rent_enddate']; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                <?php else: ?>
+                    <p>No cars rented.</p>
+                <?php endif; ?>
+                </div>
         </div>
     </main>
 </body>
-
 
 </html>

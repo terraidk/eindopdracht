@@ -37,9 +37,15 @@ if ($email) {
             $_SESSION["loggedInAdmin"] = $user["user_id"];
             header("Location: admin_panel.php");
             exit();
+        } else if ($user['is_admin'] == 2) {
+            // Assuming 2 is the role for a worker
+            $_SESSION["loggedInWorker"] = $user["user_id"];
+            header("Location: worker_panel.php");
+            exit();
         } else if ($user['is_admin'] == 0) {
+            // Assuming 0 is the role for a regular user
             $_SESSION["loggedInUser"] = $user["user_id"];
-
+    
             $carId = isset($_GET['car_id']) ? $_GET['car_id'] : null;
             if ($carId !== null) {
                 $_SESSION['carId'] = $carId; // Storing carId in session
@@ -59,6 +65,7 @@ if (isset($_POST["register"])) {
     header("location: register.php");
 }
 ?>
+
 
 <body>
     <div class="wrapper">

@@ -6,7 +6,7 @@ require_once('database.php');
 $database = new Database();
 $pdo = $database->pdo;
 
-if (!isset($_SESSION['loggedInAdmin'])) {
+if (!isset($_SESSION['loggedInAdmin']) && !isset($_SESSION['loggedInWorker'])) {
     header("Location: inloggen.php");
     exit;
 }

@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+body {
+    font-family: "Poppins", sans-serif;
+    background-color: #f0f0f0;
+    margin: 0; /* Add this line to remove the default margin */
+    padding: 20px;
+    text-align: center;
+}
+/* Navbar */
+nav {
+    background: linear-gradient(to bottom, rgba(140, 0, 140), rgba(140, 0, 140, 0.3));
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 120px;
+    padding: 5px;
+    z-index: 2;
+}
+
+.logo_navbar {
+    width: auto;  
+    height: 100px; 
+}
+
+
+.boxlog {
+    position: relative;
+}
+
+.uitloggen {
+    display: none;
+    position: absolute;
+    top: 71px; 
+    right: 25px;
+    background-color: white;
+}
+
+.ingelogd:hover .uitloggen{
+    display: block;
+}
+
+.ingelogd i {
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+.dropdown-item li {
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.4s;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.dropdown-item a {
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: 0.4s;
+    text-decoration: none;
+    list-style-type: none;
+}
+
+
+/* Hamburger menu */
+.menu ul{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 100px;
+}
+
+.hamburger-menu {
+    display: none;    
+    cursor: pointer;
+    position: relative;
+    right: 10px;
+    z-index: 10;
+}
+
+@media screen and (max-width: 1068px) {
+    .hamburger-menu{
+        display: block;
+    }
+    .hamburger-menu.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+    .hamburger-menu.active .bar:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger-menu.active .bar:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    .menu ul {
+        display: block;
+        position: fixed;
+        top: -100%; /* Initially hide the menu above the viewport */
+        left: 0;
+        width: 100%;
+        gap: 0;
+        flex-direction: column;
+        background: linear-gradient(to top, rgba(140, 0, 140), rgba(140, 0, 140, 0.3));
+        text-align: center;
+        transition: top 0.3s; /* Transition the top position for smooth appearance */
+        z-index: 1; /* Ensure the menu is behind the navbar */
+    }
+    
+    nav {
+        position: relative; /* Ensure the navbar has a positioning context */
+        z-index: 2; /* Place the navbar above the menu */
+    }
+    
+    .menu ul.active {
+        top: 0; /* When active, bring the menu down to the top of the screen */
+    }
+    
+    .menu li {
+        margin: 16px 0;
+    }
+
+}
+
+.search-container input[type="text"] {
+    background-color: #fff;
+    color: rgb(140, 0, 140); 
+    font-weight: 800;
+}
+
+
+.search-container button {
+    background-color: #04905c;
+    color: white;
+    cursor: pointer;
+    border-radius: 10px;
+    border: none;
+    font-size: 20px;
+    margin: 5px;
+    padding: 10px;
+
+}
+/* Optional: Add some padding and border-radius */
+.search-container input[type="text"],
+.search-container button {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+}
+
+/* Style the button on hover */
+.search-container button:hover {
+    opacity: 0.8;
+    /* Add any hover effects */
+}   
