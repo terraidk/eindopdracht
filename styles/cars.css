@@ -1,12 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
-/* Color Scheme */
+
 :root {
     --primary-color: rgb(140, 0, 140);
     --subtle-color: #902404;
     --rare-color: #04905c;
 }
-/* Custom CSS */
+
 body {
     background-color: #f8f9fa;
     font-family: "Poppins", sans-serif;

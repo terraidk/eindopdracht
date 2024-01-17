@@ -27,25 +27,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check if a file was uploaded
         if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
             // Get the uploaded image
-            $image = ($_FILES['car_picture']['tmp_name']);
-            $fileContent = file_get_contents($image);
-            $image = base64_encode($fileContent);
-        } else {
-            // If no file was uploaded, set a default image or handle the case as needed
-            $image = file_get_contents('default_image.jpg');
-        }
+            $imageTemp = $_FILES['car_picture']['tmp_name'];
 
-        // Insert data into the database
-        $stmt = $database->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        if ($stmt->execute([$brand, $model, $year, $license_plate, $availability, $daily_price, $image])) {
-            header("Location: worker_panel.php?addedCar=true");
-            exit;
+            // Encode the image
+            $fileContent = file_get_contents($imageTemp);
+            $encodedImage = base64_encode($fileContent);
+
+            // Debugging statements
+            echo "Image successfully encoded!<br>";
+            echo "Encoded Image Length: " . strlen($encodedImage) . "<br>";
+
+            // Insert data into the database
+            $stmt = $database->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            if ($stmt->execute([$brand, $model, $year, $license_plate, $availability, $daily_price, $encodedImage])) {
+                header("Location: worker_panel.php?addedCar=true");
+                exit;
+            } else {
+                echo "Error adding the car.<br>";
+            }
         } else {
-            $error = "Error adding the car.";
+            $defaultImage = 'images/default_image.jpg';
+            $image = file_get_contents($defaultImage);
         }
     }
-
-
 
 }
 ?>
@@ -56,7 +60,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <title>Worker Panel</title>
     <link rel="stylesheet" href="styles/adminpanel.css">
+    <link rel="stylesheet" href="styles/nav.css">
 </head>
+
+<nav>
+    <!-- LOGO -->
+    <div class="logo_top_left">
+        <a href="eindopdracht.php"><img class="logo_navbar" src="images/logo.png" alt="logo"></a>
+    </div>
+    <div>
+        <p style="font-size: 25px; color: white;">Worker panel</p>
+    </div>
+</nav>
+
+<br>
 
 <body>
     <div class="forms">
@@ -81,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="number" name="daily_price" step="0.01"><br><br>
 
             <label>Upload Picture:</label>
-            <input type="file" name="car_picture" accept="image/*"><br><br>
+            <input type="file" name="car_picture" accept="images/*"><br><br>
 
             <input type="submit" value="Add Car">
             <?php if ($error): ?>
@@ -90,14 +107,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </p>
             <?php endif; ?>
         </form>
+    </div>
+        <a href="manage_rents.php" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Rents</a>
 
-        <a href="active_rents.php"
-            style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Go
-            to Active Rents</a>
+            <a href="manage_cars.php" style="position: fixed; bottom: 120px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Cars</a>
 
-        <a href="manage_rents.php"
-            style="position: fixed; bottom: 70px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage
-            Rents</a>
+            <a href="manage_users.php" style="position: fixed; bottom: 70px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Users</a>
+
 
 
         <script>
@@ -109,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     const message = document.createElement('div');
                     message.textContent = 'Car added successfully!';
                     message.style.position = 'fixed';
-                    message.style.top = '20px';
+                    message.style.bottom = '20px';
                     message.style.right = '20px';
                     message.style.padding = '10px 20px';
                     message.style.backgroundColor = '#42b883';
@@ -119,10 +135,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     document.body.appendChild(message);
 
-                    // Automatically remove the message after a few seconds (optional)
+                    // Automatically remove the message after a 5 seconds 
                     setTimeout(function () {
                         message.remove();
-                    }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+                    }, 5000); 
                 }
             });
         </script>

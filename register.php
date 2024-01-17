@@ -16,10 +16,10 @@ require("database.php");
 $database = new Database();
 $pdo = $database->pdo;
 
-$name = isset($_POST["name"]) ? $_POST["name"] : "";
-$name = htmlspecialchars($name);
-$email = isset($_POST["email"]) ? $_POST["email"] : "";
-$address = isset($_POST["address"]) ? $_POST["address"] : "";
+$name = isset($_POST["name"]) ? htmlspecialchars($_POST["name"]) : "";
+$email = isset($_POST["email"]) ? htmlspecialchars($_POST["email"]) : "";
+$licensenumber = isset($_POST["licensenumber"]) ? htmlspecialchars($_POST["licensenumber"]) : "";
+$address = isset($_POST["address"]) ? htmlspecialchars($_POST["address"]) : "";
 $password = isset($_POST["password1"]) ? $_POST["password1"] : "";
 $password2 = isset($_POST["password2"]) ? $_POST["password2"] : "";
 
@@ -31,9 +31,12 @@ if (isset($_POST["register"])) {
         $message = "<p style='color: red; text-align: center; font-size: 22px'>Email already exists. Please use a different email.</p>";
     } else {
         if ($password == $password2) {
+            // Hash the password before storing it in the database
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
             try {
-                $database->registerUser($name, $email, $password, $address);
-                $message = "<p style='color: green; text-align: center;>Registered successfully</p>";
+                $database->registerUser($name, $email, $licensenumber, $hashedPassword, $address);
+                $message = "<p style='color: green; text-align: center;'>Registered successfully</p>";
                 sleep(1);
                 header("location: inloggen.php?registered=true");
             } catch (PDOException $e) {
@@ -58,6 +61,11 @@ if (isset($_POST["register"])) {
             <div class="input-box">
                 <input type="text" placeholder="E-mail" name="email" required>
                 <i class='bx bx-envelope'></i>
+            </div>
+            
+            <div class="input-box">
+                <input type="text" name="licensenumber" placeholder="Licensenumber" name="licensenumber" required>
+                <i class='bx bx-id-card'></i>
             </div>
 
             <div class="input-box">

@@ -32,18 +32,26 @@
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getUsers()
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM users");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function prepare($sql)
     {
         return $this->pdo->prepare($sql); // needed to use the "prepare" function with OOP
     }
 
-    public function registerUser($name, $email, $password, $address)
+    public function registerUser($name, $email, $licensenumber, $password, $address)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // hashes the password
 
-        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, address) VALUES (:name, :email, :password, :address)");
+        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, licensenumber, password, address) VALUES (:name, :email, :licensenumber, :password, :address)");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':licensenumber', $licensenumber);
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':address', $address);
         $stmt->execute();
@@ -89,12 +97,53 @@
             $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, address, is_admin) VALUES (?, ?, ?, ?, 2)");
             return $stmt->execute([$name, $email, $password, $address]);
         } catch (PDOException $e) {
-            // Handle the exception as needed, you might want to log it or display an error message
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
 
+    public function updateUser($user_id, $name, $licensenumber, $email, $address)
+    {
+        try {
+            $stmt = $this->prepare("UPDATE users SET name = ?, licensenumber = ?, email = ?, address = ? WHERE user_id = ?");
+            $stmt->bindParam(1, $name, PDO::PARAM_STR);
+            $stmt->bindParam(2, $licensenumber, PDO::PARAM_INT);
+            $stmt->bindParam(3, $email, PDO::PARAM_STR);
+            $stmt->bindParam(4, $address, PDO::PARAM_STR);
+            $stmt->bindParam(5, $user_id, PDO::PARAM_INT);
 
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getCars()
+    {
+        try {
+            $stmt = $this->prepare("SELECT * FROM cars");
+            $stmt->execute();
+
+            $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return $cars;
+        } catch (PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+    public function getCarById($car_id)
+    {
+        $stmt = $this->pdo->prepare("SELECT * FROM cars WHERE car_id = ?");
+        $stmt->execute([$car_id]);
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function updateCar($car_id, $brand, $model, $year, $license_plate, $availability, $daily_price, $picture)
+    {
+        $stmt = $this->pdo->prepare("UPDATE cars SET car_brand = ?, car_model = ?, car_year = ?, car_licenseplate = ?, car_availability = ?, car_dailyprice = ?, car_picture = ? WHERE car_id = ?");
+        return $stmt->execute([$brand, $model, $year, $license_plate, $availability, $daily_price, $picture, $car_id]);
+    }
 }
 ?>

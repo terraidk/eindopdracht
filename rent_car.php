@@ -35,8 +35,8 @@ if (isset($_GET['car_id'])) {
                                         </h1>
                                         <?php if ($car['car_picture']): ?>
                                             <!-- Decode and display the image -->
-                                            <img class="Productimg" src="data:image/jpeg;base64,<?php echo base64_encode($car['car_picture']); ?>"
-                                                alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
+                                            <img class="Productimg" src="data:images/jpeg;base64,<?php echo $car['car_picture']; ?>"
+                                                            alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
                                         <?php else: ?>
                                             <!-- Display a placeholder if no image is found -->
                                             <img class="Productimg" src="images/placeholder.png" alt="Placeholder">

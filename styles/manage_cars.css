@@ -47,7 +47,7 @@ input[type="number"],
 input[type="file"],
 input[type="submit"],
 input[type="password"] {
-    width: calc(100% - 12px);
+    width: calc(100%);
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
@@ -83,4 +83,9 @@ nav {
 .logo_navbar {
     width: auto;  
     height: 100px; 
+}
+
+th {
+    width: 300px;
+    border: 1px solid black;
 }

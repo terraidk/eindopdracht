@@ -85,8 +85,8 @@ $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
                                             <tr>
                                                 <td>
                                                     <?php if ($car['car_picture']): ?>
-                                                        <img src="data:image/jpeg;base64,<?php echo base64_encode($car['car_picture']); ?>"
-                                                            alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
+                                                                                <img src="data:images/jpeg;base64,<?php echo $car['car_picture']; ?>"
+                                                                                    alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
                                                     <?php else: ?>
                                                         <img src="images/placeholder.png" alt="Placeholder">
                                                     <?php endif; ?>
