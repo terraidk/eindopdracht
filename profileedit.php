@@ -7,6 +7,7 @@ $error = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $address = $_POST['address'] ?? null;
     $email = $_POST['email'] ?? null;
+    $phonenumber = $_POST['phonenumber'] ?? null;
     $currentPassword = $_POST['password'] ?? null;
     $newPassword = $_POST['passwordnew'] ?? null;
     $confirmNewPassword = $_POST['passwordconfirm'] ?? null;
@@ -17,7 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($user && password_verify($currentPassword, $user['password'])) {
             if ($newPassword === $confirmNewPassword) {
-                // Check if the updated email is not already in use
                 $existingUser = $pdo->getUserByEmail($email);
 
                 if (!$existingUser || $existingUser['user_id'] == $id) {
@@ -80,18 +80,23 @@ if ($id) {
                 </div>
 
                 <div class="form-group">
-                    <label for="password">Current password</label>
-                    <input type="password" class="form-control" name="password" value="" required>
-                </div>
+                    <label for="phonenumber">Phone number</label>
+                    <input type="text" class="form-control" name="phonenumber" value="<?php echo $user['phonenumber']; ?>" required>
+                    </div>
 
-                <div class="form-group">
-                    <label for="passwordnew">New password</label>
-                    <input type="password" class="form-control" name="passwordnew" value="">
-                </div>
+                                <div class="form-group">
+                                    <label for="password">Current password</label>
+                                    <input type="password" class="form-control" name="password" value="" required>
+                                </div>
 
-                <div class="form-group">
-                    <label for="passwordconfirm">Confirm new password</label>
-                    <input type="password" class="form-control" name="passwordconfirm" value="">
+                                <div class="form-group">
+                                    <label for="passwordnew">New password</label>
+                                    <input type="password" class="form-control" name="passwordnew" value="">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="passwordconfirm">Confirm new password</label>
+                                    <input type="password" class="form-control" name="passwordconfirm" value="">
                     <?php if (isset($newPasswordError)): ?>
                         <p class="error-message">
                             <?php echo $newPasswordError; ?>

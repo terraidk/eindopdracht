@@ -64,7 +64,7 @@ if (isset($_SESSION['loggedInUser'])) {
                 echo '<div class="car-item">';
                 echo '<div class="Imgdiv">';
                 if ($car['car_picture']) {
-                    echo '<img class="Productimg" src="data:image/jpeg;base64,' . base64_encode($car["car_picture"]) . '">';
+                    echo '<img class="Productimg" src="data:image/jpeg;base64,' . $car["car_picture"] . '">';
                 } else {
                     echo '<img class="Productimg" src="images/placeholder.png">';
                 }

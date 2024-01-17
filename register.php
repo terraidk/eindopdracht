@@ -19,6 +19,7 @@ $pdo = $database->pdo;
 $name = isset($_POST["name"]) ? htmlspecialchars($_POST["name"]) : "";
 $email = isset($_POST["email"]) ? htmlspecialchars($_POST["email"]) : "";
 $licensenumber = isset($_POST["licensenumber"]) ? htmlspecialchars($_POST["licensenumber"]) : "";
+$phonenumber = isset($_POST["phonenumber"]) ? ($_POST["phonenumber"]) : "";
 $address = isset($_POST["address"]) ? htmlspecialchars($_POST["address"]) : "";
 $password = isset($_POST["password1"]) ? $_POST["password1"] : "";
 $password2 = isset($_POST["password2"]) ? $_POST["password2"] : "";
@@ -31,14 +32,16 @@ if (isset($_POST["register"])) {
         $message = "<p style='color: red; text-align: center; font-size: 22px'>Email already exists. Please use a different email.</p>";
     } else {
         if ($password == $password2) {
-            // Hash the password before storing it in the database
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $password = trim($_POST["password1"]);
+            $hashedPassword = md5($password);
 
             try {
-                $database->registerUser($name, $email, $licensenumber, $hashedPassword, $address);
+                $database->registerUser($name, $email, $licensenumber, $phonenumber, $hashedPassword, $address);
                 $message = "<p style='color: green; text-align: center;'>Registered successfully</p>";
                 sleep(1);
                 header("location: inloggen.php?registered=true");
+                exit(); // Add exit after header to prevent further execution
             } catch (PDOException $e) {
                 $message = "Error registering user: " . $e->getMessage();
             }
@@ -71,6 +74,11 @@ if (isset($_POST["register"])) {
             <div class="input-box">
                 <input type="text" placeholder="Address" name="address" required>
                 <i class='bx bx-home'></i>
+            </div>
+
+            <div class="input-box">
+                <input type="text" placeholder="Phone Number" name="phonenumber" required>
+                <i class='bx bxs-phone'></i>
             </div>
 
             <div class="input-box">

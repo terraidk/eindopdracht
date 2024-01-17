@@ -11,6 +11,7 @@ CREATE TABLE users (
     name VARCHAR(50) NOT NULL,
     licensenumber INT NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,
+    phonenumber INT(10) UNIQUE,
     password VARCHAR(255) NOT NULL,
     address TEXT NOT NULL,
     is_admin TINYINT(1) NOT NULL DEFAULT 0
@@ -51,7 +52,7 @@ VALUES ('Audi', 'R8', 2023, '9-VGB-14', 1, 75.00, "audir8.png");
 -- random
 UPDATE cars
 SET car_availability = 1
-WHERE car_id = 4;
+WHERE car_id = 2;
 
 ALTER TABLE users
 ADD COLUMN is_admin TINYINT(1) NOT NULL DEFAULT 0;
@@ -81,7 +82,7 @@ WHERE user_id = 1;
 
 UPDATE users 
 SET is_admin = 2
-WHERE user_id = 3;
+WHERE user_id = 2;
 
 delete from users where user_id = 3;
 

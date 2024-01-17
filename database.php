@@ -44,16 +44,17 @@
         return $this->pdo->prepare($sql); // needed to use the "prepare" function with OOP
     }
 
-    public function registerUser($name, $email, $licensenumber, $password, $address)
+    public function registerUser($name, $email, $licensenumber, $phonenumber, $password, $address)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // hashes the password
+        $hashedPassword = md5($password); // hashes the password
 
-        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, licensenumber, password, address) VALUES (:name, :email, :licensenumber, :password, :address)");
+        $stmt = $this->pdo->prepare("INSERT INTO users (name, email, licensenumber, phonenumber, password, address) VALUES (:name, :email, :licensenumber, :phonenumber, :password, :address)");
         $stmt->bindParam(':name', $name);
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':licensenumber', $licensenumber);
         $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':phonenumber', $phonenumber);
         $stmt->execute();
     }
 

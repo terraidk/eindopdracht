@@ -39,6 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $error = "Error updating user details.";
     }
+} else {
+    echo "<h2 sytlye='text-align: center; font-size: 30px; color: rgb(140, 0, 140);' >User not available/not found</h2>";
 }
 ?>
 
