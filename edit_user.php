@@ -40,9 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Error updating user details.";
     }
 } else {
-    echo "<h2 sytlye='text-align: center; font-size: 30px; color: rgb(140, 0, 140);' >User not available/not found</h2>";
+    echo "<h2 style='text-align: center; font-size: 30px; color: rgb(140, 0, 140);' >User not available/not found</h2>";
 }
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">

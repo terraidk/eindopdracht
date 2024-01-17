@@ -108,13 +108,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <?php endif; ?>
         </form>
     </div>
-        <a href="manage_rents.php" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Rents</a>
+            <a href="manage_rents.php" style="position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Rents</a>
 
             <a href="manage_cars.php" style="position: fixed; bottom: 120px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Cars</a>
 
             <a href="manage_users.php" style="position: fixed; bottom: 70px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Users</a>
 
-
+            <a href="logout.php" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background-color: #d00000; color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Logout</a"></a>
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {

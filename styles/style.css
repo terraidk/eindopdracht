@@ -237,6 +237,7 @@ nav {
     margin: 20px auto;
     max-width: 260px;
     max-height: 200px;
+    aspect-ratio: 16 / 9;
 }
 
 .rent {

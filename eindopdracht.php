@@ -7,7 +7,13 @@ $pdo = $database->pdo;
 
 $stmt = $pdo->query("SELECT * FROM cars");
 $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
+    session_destroy();
+}
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

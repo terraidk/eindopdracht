@@ -89,10 +89,6 @@ input.price {
     text-decoration: none;
 }
 
-.back-button:hover {
-
-}
-
 .back-button {
     border-radius: 4px;
     background-color: rgb(140, 0, 140);

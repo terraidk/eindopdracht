@@ -28,10 +28,11 @@ $res_Email = $result['email'];
 $res_address = $result['address'];
 
 // Fetch rented cars information
-$rentedCarsQuery = $db->pdo->prepare("SELECT cars.*, renting.rent_startdate, renting.rent_enddate
-                                      FROM renting
-                                      JOIN cars ON renting.car_id = cars.car_id
-                                      WHERE renting.user_id = :user_id");
+$rentedCarsQuery = $db->pdo->prepare("SELECT cars.*, renting.rent_id, renting.rent_startdate, renting.rent_enddate
+                                        FROM renting
+                                        JOIN cars ON renting.car_id = cars.car_id
+                                        WHERE renting.user_id = :user_id
+");
 $rentedCarsQuery->bindParam(':user_id', $res_id);
 $rentedCarsQuery->execute();
 $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
@@ -78,6 +79,7 @@ $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
                                             <th>Car</th>
                                             <th>Start Date</th>
                                             <th>End Date</th>
+                                            <th>Invoice</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -96,9 +98,14 @@ $rentedCars = $rentedCarsQuery->fetchAll(PDO::FETCH_ASSOC);
                                                     <?php echo $car['rent_startdate']; ?>
                                                 </td>
                                                 <td>
-                                                    <?php echo $car['rent_enddate']; ?>
-                                                </td>
-                                            </tr>
+<?php echo $car['rent_enddate']; ?>
+                                        </td>
+                                        <td>
+                                
+                                            <?php echo "<a class='invoicebtn' href='invoice.php?rent_id=" . $car['rent_id'] . "&user_id=" . $res_id . "'>View Invoice</a>"; ?>
+
+                                                                </td>
+                                                            </tr>
                                         <?php endforeach; ?>
                                     </tbody>
                                 </table>

@@ -1,5 +1,7 @@
 <?php
 session_start();
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 // Redirect if the user is not an admin
 if (!isset($_SESSION['loggedInAdmin'])) {
@@ -7,6 +9,7 @@ if (!isset($_SESSION['loggedInAdmin'])) {
     session_destroy();
     exit;
 }
+
 
 require('database.php');
 
@@ -55,27 +58,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['addAdmin'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashing the password for security
+        $password = md5($_POST['password']); // Hashing the password for security
+        $address = '';
 
         $existingUser = $database->getUserByEmail($email);
 
         if (!$existingUser) {
-            if ($database->addAdmin($name, $email, $password)) {
+            if ($database->addAdmin($name, $email, $password, $address)) {
                 header("Location: admin_panel.php?addedAdmin=true");
                 exit;
             } else {
-                $error = "Error adding the admin.";
+                $error2 = "Error adding the worker.";
             }
         } else {
-            $error = "Email already in use by someone else.";
+            $error2 = "Email already in use by someone else.";
         }
     }
 
     if (isset($_POST['addWorker'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hashing the password for security
-        $address = ''; // Add the default value for the address
+        $password = md5($_POST['password']); // Hashing the password for security
+        $address = '';
 
         $existingUser = $database->getUserByEmail($email);
 
@@ -116,6 +120,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 </nav>
 
+<br>
+
     <div class="forms">
         <form action="admin_panel.php" method="POST" enctype="multipart/form-data">
             <h2 style="text-align: center;">Add a New Car</h2>
@@ -147,23 +153,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
 
         <form action="admin_panel.php" method="POST">
-            <h2 style="text-align: center;">Add a New Admin User</h2>
-            <label>Name:</label>
-            <input type="text" name="name" required><br><br>
-
-            <label>Email:</label>
-            <input type="text" name="email" required><br><br>
-
-            <label>Password:</label>
-            <input type="password" name="password" required><br><br>
-
-            <input type="submit" value="Add Admin User">
-            <?php if ($error): ?>
-                <p style='color: red; text-align: center; font-size: 20px;'>
-                    <?php echo $error; ?>
-                </p>
-            <?php endif; ?>
-            </form>
+                    <h2 style="text-align: center;">Add a New Admin User</h2>
+                    <input type="hidden" name="addAdmin" value="true">
+                
+                    <label>Name:</label>
+                    <input type="text" name="name" required><br><br>
+                
+                    <label>Email:</label>
+                    <input type="text" name="email" required><br><br>
+                
+                    <label>Password:</label>
+                    <input type="password" name="password" required><br><br>
+                
+                    <input type="submit" value="Add Admin">
+                    <?php if ($error2): ?>
+                        <p style='color: red; text-align: center; font-size: 20px;'>
+                            <?php echo $error2; ?>
+                                </p>
+                            <?php endif; ?>
+                            </form>
                 
                 <form action="admin_panel.php" method="POST">
                     <h2 style="text-align: center;">Add a New Worker</h2>
@@ -193,6 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <a href="manage_cars.php" style="position: fixed; bottom: 120px; right: 20px; padding: 10px 20px; background-color: rgb(140, 0, 140); color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Manage Cars</a>
 
+    <a href="logout.php" style="position: fixed; bottom: 20px; left: 20px; padding: 10px 20px; background-color: #d00000; color: #fff; border-radius: 5px; text-decoration: none; z-index: 9999;">Logout</a"></a>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -201,7 +210,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if (addedCar === 'true') {
                 const message = document.createElement('div');
-                message.textContent = 'Car added successfully!';
+                message.textContent = 'Car added successfully!';x
                 message.style.position = 'fixed';
                 message.style.bottom = '20px';
                 message.style.right = '20px';
@@ -213,10 +222,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 document.body.appendChild(message);
 
-                // Automatically remove the message after a few seconds (optional)
+                // Automatically remove the message after a few seconds 
                 setTimeout(function () {
                     message.remove();
-                }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+                }, 5000); 
             }
         });
 
@@ -238,16 +247,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             document.body.appendChild(message);
 
-            // Automatically remove the message after a few seconds (optional)
+            // Automatically remove the message after a few seconds 
             setTimeout(function () {
                 message.remove();
-            }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+            }, 5000); 
         }
     });
 
     document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const addedWorker = urlParams.get('addedWorker'); // Corrected variable name
+    const addedWorker = urlParams.get('addedWorker'); 
 
     if (addedWorker === 'true') {
         const message = document.createElement('div');

@@ -69,17 +69,19 @@
     {
         return htmlspecialchars($var);
     }
-    public function addAdmin($name, $email, $password)
+    public function addAdmin($name, $email, $password, $address)
     {
         try {
-            $stmt = $this->prepare("INSERT INTO users (name, email, password, address, is_admin) VALUES (?, ?, ?, '', 1)");
-            $stmt->execute([$name, $email, $password]);
-            return true;
+            $hashedPassword = md5($password);
+
+            $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, licensenumber, phonenumber, address, is_admin) VALUES (?, ?, ?, NULL, NULL, ?, 1)");
+            return $stmt->execute([$name, $email, $hashedPassword, $address]);
         } catch (PDOException $e) {
-            ($e->getMessage());
+            echo "Error: " . $e->getMessage();
             return false;
         }
     }
+    
 
     public function getAllRents()
     {
@@ -95,14 +97,17 @@
     public function addWorker($name, $email, $password, $address)
     {
         try {
-            $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, address, is_admin) VALUES (?, ?, ?, ?, 2)");
-            return $stmt->execute([$name, $email, $password, $address]);
+            $hashedPassword = md5($password);
+
+            $stmt = $this->pdo->prepare("INSERT INTO users (name, email, password, licensenumber, phonenumber, address, is_admin) VALUES (?, ?, ?, NULL, NULL, ?, 2)");
+            return $stmt->execute([$name, $email, $hashedPassword, $address]);
         } catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
             return false;
         }
     }
 
+    
     public function updateUser($user_id, $name, $licensenumber, $email, $address)
     {
         try {

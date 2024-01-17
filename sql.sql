@@ -69,6 +69,8 @@ MODIFY COLUMN licensenumber INT UNIQUE NOT NULL DEFAULT 0;
 ALTER TABLE renting
 DROP FOREIGN KEY renting_ibfk_2;
 
+ALTER TABLE users MODIFY licensenumber INT DEFAULT NULL;
+
 ALTER TABLE renting
 ADD CONSTRAINT renting_ibfk_2
 FOREIGN KEY (user_id)
