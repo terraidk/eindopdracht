@@ -11,6 +11,7 @@ $cars = $stmt->fetchAll(PDO::FETCH_ASSOC);
 if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
     session_destroy();
 }
+
 ?>
 
 
@@ -23,10 +24,12 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>snelle autos</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-pzjw8f+ua7p8p3dpu5n5s5t3kmw1jh5f5bG5GfPQ1YzF+8Qch9i/A5Fw5+5L2t5zH" crossorigin="anonymous">
-        
+        integrity="sha384-pzjw8f+ua7p8p3dpu5n5s5t3kmw1jh5f5bG5GfPQ1YzF+8Qch9i/A5Fw5+5L2t5zH" crossorigin="anonymous">        
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="styles/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+
 </head>
 
 <body>
@@ -100,6 +103,16 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
         <div class="container">
             <?php
             foreach ($cars as $car) {
+                $carName = $car["car_brand"] . ' ' . $car["car_model"];
+                $maxNameLength = 14; // Set the maximum length for the car name
+            
+                // Check if the car name exceeds the maximum length
+                if (strlen($carName) > $maxNameLength) {
+                    $displayCarName = substr($carName, 0, $maxNameLength) . '...';
+                } else {
+                    $displayCarName = $carName;
+                }
+
                 echo '<div class="Productdiv">';
                 echo '<div class="Imgdiv">';
                 if ($car['car_picture']) {
@@ -108,13 +121,11 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
                     // Display a placeholder if no image is found
                     echo '<img class="Productimg" src="images/default_image.png">';
                 }
-                // Remove this line that's causing the image filename to be printed
-                // echo $car["car_picture"];
                 echo '</div>';
                 echo '<button class="rent" onclick="window.location.href=\'cars.php?car_id=' . $car["car_id"] . '\'">RENT NOW</button>';
                 echo '<div class="Infodiv">';
-                echo '<p class="item">' . $car["car_brand"] . ' ' . $car["car_model"] . '</p>';
-                echo '<p class="prijs">€' . $car["car_dailyprice"] . ' per day.</p>';
+                echo '<p class="item">' . $displayCarName . '</p>';
+                echo '<p class="prijs">€' . $car["car_dailyprice"] . ' daily.</p>';
                 echo '</div>';
                 echo '</div>';
             }
@@ -124,23 +135,23 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
         <div class="services-section" id="services1">
     <h1 class="text" style="text-align: center; color: rgb(140, 0, 140);">Our Services</h1>
     <div class="service-item">
-        <h2>Wide Range of Cars</h2>
-        <p>We offer a diverse selection of cars, from compact cars to SUVs, ensuring there's a perfect vehicle for every occasion.</p>
+        <h2 style="text-align: center">Wide Range of Cars</h2>
+        <p style="text-align: center">We offer a diverse selection of cars, from compact cars to SUVs, ensuring there's a perfect vehicle for every occasion.</p>
     </div>
     
     <div class="service-item">
-        <h2>Flexible Rental Periods</h2>
-        <p>Choose the rental period that suits your needs, whether it's a day, a week, or even a month. We provide flexibility to accommodate your schedule.</p>
+        <h2 style="text-align: center">Flexible Rental Periods</h2>
+        <p style="text-align: center">Choose the rental period that suits your needs, whether it's a day, a week, or even a month. We provide flexibility to accommodate your schedule.</p>
     </div>
 
     <div class="service-item">
-        <h2>Easy Booking Process</h2>
-        <p>Our user-friendly online booking system makes it convenient for you to reserve a car at your fingertips. Book anytime, anywhere.</p>
+        <h2 style="text-align: center">Easy Booking Process</h2>
+        <p style="text-align: center">Our user-friendly online booking system makes it convenient for you to reserve a car at your fingertips. Book anytime, anywhere.</p>
     </div>
 
     <div class="service-item">
-        <h2>Competitive Pricing</h2>
-        <p>Enjoy competitive and transparent pricing with no hidden fees. We strive to provide cost-effective solutions for your car rental needs.</p>
+        <h2 style="text-align: center">Competitive Pricing</h2>
+        <p style="text-align: center">Enjoy competitive and transparent pricing with no hidden fees. We strive to provide cost-effective solutions for your car rental needs.</p>
     </div>
 
     <div class="location-section" id="location1">
