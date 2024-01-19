@@ -69,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             Customer User ID:
             <?php echo $rent['user_id']; ?>
         </p>
-        <!-- Display more details as needed -->
 
         <form action="delete_rent.php?rent_id=<?php echo $rent_id; ?>" method="POST">
             <input type="submit" value="Confirm Delete">

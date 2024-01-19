@@ -59,8 +59,6 @@ if (isset($_SESSION['loggedInUser'])) {
         // Display cars based on search results or all cars if no search term
         if ($cars && count($cars) > 0) {
             foreach ($cars as $car) {
-                // Display car details (modify as needed)
-                // ... Display car image, brand, model, price, etc.
                 echo '<div class="car-item">';
                 echo '<div class="Imgdiv">';
                 if ($car['car_picture']) {

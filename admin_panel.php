@@ -13,7 +13,7 @@ if (!isset($_SESSION['loggedInAdmin'])) {
 
 require('database.php');
 
-// Establish the database connection here
+// Establish the database connection 
 $database = new Database();
 $result = "";
 $error = "";
@@ -28,18 +28,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $availability = isset($_POST['availability']) ? 1 : 0;
         $daily_price = $_POST['daily_price'];
 
-        // Check if a file was uploaded
         if (isset($_FILES['car_picture']) && $_FILES['car_picture']['error'] == 0) {
-            // Get the uploaded image
             $imageTemp = $_FILES['car_picture']['tmp_name'];
 
-            // Encode the image
             $fileContent = file_get_contents($imageTemp);
             $encodedImage = base64_encode($fileContent);
-
-            // Debugging statements
-            echo "Image successfully encoded!<br>";
-            echo "Encoded Image Length: " . strlen($encodedImage) . "<br>";
 
             // Insert data into the database
             $stmt = $database->prepare("INSERT INTO cars (car_brand, car_model, car_year, car_licenseplate, car_availability, car_dailyprice, car_picture) VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -58,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['addAdmin'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = md5($_POST['password']); // Hashing the password for security
+        $password = md5($_POST['password']);
         $address = '';
 
         $existingUser = $database->getUserByEmail($email);
@@ -78,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['addWorker'])) {
         $name = $_POST['name'];
         $email = $_POST['email'];
-        $password = md5($_POST['password']); // Hashing the password for security
+        $password = md5($_POST['password']);
         $address = '';
 
         $existingUser = $database->getUserByEmail($email);
@@ -111,7 +104,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 
 <nav>
-    <!-- LOGO -->
     <div class="logo_top_left">
         <a href="eindopdracht.php"><img class="logo_navbar" src="images/logo.png" alt="logo"></a>
     </div>
@@ -222,7 +214,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 document.body.appendChild(message);
 
-                // Automatically remove the message after a few seconds 
                 setTimeout(function () {
                     message.remove();
                 }, 5000); 
@@ -231,7 +222,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         document.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
-        const addedAdmin = urlParams.get('addedAdmin'); // Corrected variable name
+        const addedAdmin = urlParams.get('addedAdmin'); 
 
         if (addedAdmin === 'true') {
             const message = document.createElement('div');
@@ -247,7 +238,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             document.body.appendChild(message);
 
-            // Automatically remove the message after a few seconds 
             setTimeout(function () {
                 message.remove();
             }, 5000); 

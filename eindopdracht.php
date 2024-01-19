@@ -70,7 +70,7 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
 
             ?>
             <ul>
-                <!-- Display the Login Link -->
+                <!-- Display the Login Link if nog logged in -->
                 <li class="navbar-li"><a class="navbar-a" href="inloggen.php">LOGIN</a></li>
             </ul>
             <?php
@@ -91,9 +91,9 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
             </ul>
             <?php
         }
-        if (isset($_GET['uitloggen'])) { // Check if the 'uitloggen' parameter is set // Destroy the user's session
+        if (isset($_GET['uitloggen'])) { // Check if the 'uitloggen' parameter is set / Destroy the user's session
             header("Location: logout.php"); // Redirect to the eindopdracht.php page
-            exit; // Terminate further code execution
+            exit;
         }
         ?>
     </nav>
@@ -104,7 +104,7 @@ if (isset($_SESSION['loggedInAdmin']) && isset($_SESSION['loggedInWorker'])) {
             <?php
             foreach ($cars as $car) {
                 $carName = $car["car_brand"] . ' ' . $car["car_model"];
-                $maxNameLength = 14; // Set the maximum length for the car name
+                $maxNameLength = 14; // Maximum length for the car name
             
                 // Check if the car name exceeds the maximum length
                 if (strlen($carName) > $maxNameLength) {

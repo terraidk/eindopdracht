@@ -68,7 +68,7 @@ if (isset($_GET['car_id'])) {
     } else {
         // If the car with the specified car_id is not found, display an error or redirect to another page
         echo "Car not found";
-        exit; // Terminate further code execution
+        exit;
     }
 } else {
     // If no car_id is provided in the URL, display a message or redirect to another page
@@ -83,7 +83,7 @@ if (isset($_GET['car_id'])) {
         const paymentSuccessful = simulatePayment();
 
         if (paymentSuccessful) {
-            // Simulate updating car availability (client-side)
+            // Updating car availability in the database
             updateCarAvailability(carId);
 
             // Redirect to rent confirmation page with carId parameter
@@ -94,18 +94,6 @@ if (isset($_GET['car_id'])) {
         }
     }
 
-    // Function to simulate payment (replace with actual payment processing logic)
-    function simulatePayment() {
-        // Simulate successful payment (return true for success, false for failure)
-        return Math.random() < 0.8; // 80% success rate (adjust for simulation)
-    }
-
-    // Function to simulate updating car availability (replace with actual logic)
-    function updateCarAvailability(carId) {
-        // Simulate updating car availability in the database (client-side)
-        // This could involve making an AJAX request to update the database, for example
-        console.log('Updating car availability for car ID: ' + carId);
-    }
 </script>
 </body>
 

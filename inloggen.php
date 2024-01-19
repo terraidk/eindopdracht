@@ -45,9 +45,6 @@ if ($email && $password) {
             exit();
         }
     } else {
-        var_dump($password);
-        var_dump(md5($password));
-        var_dump($user['password']);
         $error_message = "Invalid email or password";
     }
 }

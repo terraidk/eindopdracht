@@ -104,10 +104,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 document.body.appendChild(message);
 
-                // Automatically remove the message after a few seconds (optional)
                 setTimeout(function () {
                     message.remove();
-                }, 5000); // Adjust the time as needed (here it's set to 5 seconds)
+                }, 5000); 
             }
         });
     </script>

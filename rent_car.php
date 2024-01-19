@@ -34,9 +34,9 @@ if (isset($_GET['car_id'])) {
                                 <h1><?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>
                                         </h1>
                                         <?php if ($car['car_picture']): ?>
-                                            <!-- Decode and display the image -->
-                                            <img class="Productimg" src="data:images/jpeg;base64,<?php echo $car['car_picture']; ?>"
-                                                            alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
+                                                                                            <!-- Display the image -->
+                                                                                            <img class="Productimg" src="data:images/jpeg;base64,<?php echo $car['car_picture']; ?>"
+                                                                                                alt="<?php echo $car['car_brand'] . ' ' . $car['car_model']; ?>">
                                         <?php else: ?>
                                             <!-- Display a placeholder if no image is found -->
                                             <img class="Productimg" src="images/placeholder.png" alt="Placeholder">
@@ -58,7 +58,7 @@ if (isset($_GET['car_id'])) {
                                     </div>
                                     <div class="container">
                                         <h2>Select Rent Dates</h2>
-                                        <!-- Added the hidden input field for car_id -->
+                                        <!-- Hidden input field for car_id -->
                                         <form id="rentForm" action="rent_confirmation.php?car_id=<?php echo $carId; ?>" method="POST">
                                             <input type="hidden" name="car_id" value="<?php echo $_GET['car_id']; ?>">
                                             <label for="start_date">Start Date:</label>
@@ -71,22 +71,32 @@ if (isset($_GET['car_id'])) {
                                         </form>
                                     </div>
 
-                            <script>
-                               document.addEventListener('DOMContentLoaded', function() {
-                const rentForm = document.getElementById('rentForm');
+                                    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        const rentForm = document.getElementById('rentForm');
+        const startDateInput = document.getElementById('rent_startdate');
+        const endDateInput = document.getElementById('rent_enddate');
 
-                rentForm.addEventListener('input', function() {
-                    const startDate = new Date(document.getElementById('rent_startdate').value);
-                    const endDate = new Date(document.getElementById('rent_enddate').value);
-                    const dailyPrice = <?php echo $car['car_dailyprice']; ?>;
-                                        const totalPrice = (endDate - startDate) / (1000 * 60 * 60 * 24) * dailyPrice;
-                                        document.querySelector('.price').value = '€' + totalPrice.toFixed(2);
-                                    });
-                                });
-                            </script>
-                                </body>
+        // Set the minimum attribute of the start date input to the current date
+        startDateInput.min = new Date().toISOString().split('T')[0];
 
-                        </html>
+        rentForm.addEventListener('input', function() {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            const dailyPrice = <?php echo $car['car_dailyprice']; ?>;
+                    const totalPrice = (endDate - startDate) / (1000 * 60 * 60 * 24) * dailyPrice;
+
+                            // Update the total price input
+                            document.querySelector('.price').value = '€' + totalPrice.toFixed(2);
+
+                            // Update the minimum attribute of the end date input based on the selected start date
+                            endDateInput.min = startDateInput.value;
+                            });
+                            });
+                        </script>
+            </body>
+
+            </html>
         <?php
     } else {
         echo "Car not found";
