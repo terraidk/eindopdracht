@@ -57,7 +57,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <nav>
-        <!-- LOGO -->
         <div class="logo_top_left">
             <a href="eindopdracht.php"><img class="logo_navbar" src="images/logo.png" alt="logo"></a>
         </div>
